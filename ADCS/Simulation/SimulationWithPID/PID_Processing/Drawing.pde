@@ -1,5 +1,5 @@
 
-/******Ecrit les entrées de la communication série******/
+/******Write the entries of the serial communication******/
 void writeParam(int x, int y, int size) {
   textSize(size);
   /*text("magnetoX (mGauss) : "+magneto[0] ,x,y);
