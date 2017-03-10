@@ -10,10 +10,10 @@ class Pid {
   public float sumError, previousMistake, previousConsigne;
   float consigne;
   float varSens=1; //this variable is used to plot the graphic
-  float delay[];  
-  float KP;
-  float KD;
-  float KI;
+  float delay[];  //This array will store the successiv decisions
+  float KP; //proportionate factor of the PID
+  float KD; //derivator factor of the PID
+  float KI; //integrator factor of the PID
   float error;
 
 
