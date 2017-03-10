@@ -29,7 +29,8 @@ class Pid {
     this.KD=KD;
     this.KI=KI;
   }
-
+  
+//Compute the PID algorithm and return the new consign with respect to the delay//
 //This function return the consign that will be applied. To do it calculates the difference between the actual angle and the angle desired. Then with the PID it calculates the consign to apply 
   float calculatePID(float measure) {
     float pid = 0;
@@ -60,7 +61,8 @@ class Pid {
     return Delay3();// We take into consideration the delay
   }
 
-	//This delay stock the successive decisions in an array and those decisions are then taken successively respecting the delay (which leads to an amplification of decisions and an amplified sinusoid)
+  //Returns the decision taken some moment ago //
+  //This delay stock the successive decisions in an array and those decisions are then taken successively respecting the delay (which leads to an amplification of decisions and an amplified sinusoid)
   public float Delay3() {
     //if we are close enough to the consigne, we do not act
     if (threshold>=Math.abs(error)) {
