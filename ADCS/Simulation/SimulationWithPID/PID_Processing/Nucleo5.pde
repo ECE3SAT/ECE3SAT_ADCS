@@ -39,11 +39,12 @@ Test_PID procZ = new Test_PID();
 float KP, KI, KD;
 float threshold=5;
 
-
+//Set the screen size//
 void settings() {
   size(1920, 1080, P3D);
 }
 
+//Create and set textfields and buttons//
 void setup() 
 {
   frameRate(35);
@@ -68,7 +69,7 @@ void setup()
 
 
 
-
+//Draw some Label on Screen and call the drawing methods of the other class//
 void draw()
 {
   background(0);
@@ -95,16 +96,15 @@ void draw()
   drawEarth(earthPos.x, earthPos.y, earthPos.z);
 }
 
-
-/// launche PID Cal
-
+//Launch the PID calculation to get the new angles//
+/// launch PID Cal
 void calPID() {  // edit val for parameter 
   thetaX=radians(procX.myEvaluation(Url1, thetaX));
   thetaY=radians(procY.myEvaluation(Url2, thetaY));
   thetaZ=radians(procZ.myEvaluation(Url3, thetaZ));
 }
 
-
+//Get and set the new values that are set graphically in the textfields//
 //button 
 public void Param() {
   KP=float(cp5.get(Textfield.class, "KP").getText());
@@ -128,6 +128,7 @@ public void Param() {
 }
 
 //button 
+//Get and set the new values that are set graphically in the textfields//
 public void Consign() {
   url1 =cp5.get(Textfield.class, "ThetaX").getText();
   Url1=int(url1); 
@@ -137,7 +138,7 @@ public void Consign() {
   Url3=int(url3);
 }
 
-
+//Compute and plot the graphic lines on screen//
 // create graph line for each Var
 void graph(ArrayList Wave, int decalage) {
 
