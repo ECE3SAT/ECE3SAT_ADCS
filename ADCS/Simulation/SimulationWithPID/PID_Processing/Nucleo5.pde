@@ -148,7 +148,7 @@ void graph(ArrayList Wave, int decalage) {
 
   for (int i = 0; i < Wave.size(); i++)
   {
-    stroke(255);    
+    stroke(255);   //for the color 
     if (prevX == 0 && prevY == 0)
     {
       prevX = i;
