@@ -23,7 +23,7 @@ class Test_PID {
     pid.consigne=20.;
   }
 
-
+  //Calculate the new value of the rotation (the actual attitude)//
   // Simulate the varation of the measure. 
   public float systemSimulator(float command) {
 
@@ -37,7 +37,7 @@ class Test_PID {
     return measure;
   }
 
-
+//Edit the value where the cube is and the PID value//
   public float myEvaluation(int consignFrom, float Measure) {
     currentValue=degrees(Measure);
     pid.consigne= consignFrom; 
