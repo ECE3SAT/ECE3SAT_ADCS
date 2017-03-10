@@ -21,7 +21,7 @@ void writeParam(int x, int y, int size) {
   text("Edit Value", 1700, 820);
 }
 
-
+//Draw the earth on screen (after computing the new orientation)//
 /******Draw earth*****/
 void drawEarth(float x, float y, float size) {
   pushMatrix();
@@ -38,6 +38,7 @@ void drawEarth(float x, float y, float size) {
   popMatrix();
 }
 
+//Draw the cube on screen (after computing the new orientation)//
 /******Draw CubeSat******/
 void drawCube(float x, float y, float z, float thetaX, float thetaY, float thetaZ, int size) {
   pushMatrix();
@@ -52,7 +53,7 @@ void drawCube(float x, float y, float z, float thetaX, float thetaY, float theta
   popStyle();
 }
 
-
+//Create the cube and colorise it//
 void Cube(int size) {
 
   scale(size);
