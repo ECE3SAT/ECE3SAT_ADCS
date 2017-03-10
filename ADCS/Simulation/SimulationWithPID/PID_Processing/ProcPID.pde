@@ -2,10 +2,10 @@
 class Test_PID {
   ////////////Edital parts///////////
   float commandMultiplier = .3;
-  float disp=0.2;
-  float KP=1;
-  float KI=0;
-  float KD=0;
+  float disp=0.2; //It represent the dispersion
+  float KP=1; //The proportial factor
+  float KI=0; //The integrator factor
+  float KD=0; //The derivator factor
   ///////////////////////
   float currentValue, prevValue;  
   int i;
