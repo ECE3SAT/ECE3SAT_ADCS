@@ -9,22 +9,22 @@ For PID_Java:
 editable :
  
 Test_PID
-	measure=10; initialise the first measure; it's where the algo starts
-	commandMultiplier = 0.3; modify the amplification of the commande from PID
-	maxIteration = 1000; // edit how many calcul do the code 
-	disp=0.2; it's perpetual loose of the system	
-	KP=1;
-	KI=2;
-	KD=0;
+	measure : initialise the first measure; it's where the algo starts
+	commandMultiplier : modify the amplification of the commande from PID
+	maxIteration : edit how many calcul do the code 
+	disp : it is the perpetual loose of the system	
+	KP; : proportionate factor of the PID
+	KI : integrator factor of the PID
+	KD : derivator factor of the PID
 
 Pid2
 
-	threshold=0.1; the default of the captor it represents his precision (when we are between command+threshold and command - threshold we think we are at the command so we chose not to act) 
-	precisionRound=10000; //the precision round for example 1000 for 3 number after the point (10000 for 4 and so on)
-	maxChangePerIterateration=1; 
-	delayTime=5; // delay beetween when the commande is sent and went it's executate 
+	threshold : the default of the captor it represents his precision (when we are between command+threshold and command - threshold we think we are at the command so we chose not to act) 
+	precisionRound :the precision round for example 1000 for 3 number after the point (10000 for 4 and so on)
+	maxChangePerIterateration : we can limit the change possible between 2 iterations 
+	delayTime :  delay beetween when the commande is sent and went it's executate 
 
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 For PID_Processing
 
@@ -36,18 +36,18 @@ editable :
  
 Test_PID
 
-	measure=10; initialise the first measure; it's where algo start
-	commandMultiplier = 0.3; modify the amplification of the commande from PID
-	maxIteration = 1000; // edit how many calcul do the code 
-	disp=0.2; it's perpetual loose of the system	
-	KP=1;
-	KI=2;
-	KD=0;
+	measure : initialise the first measure; it's where algo start
+	commandMultiplier : modify the amplification of the commande from PID
+	maxIteration : edit how many calcul do the code 
+	disp : it is the perpetual loose of the system	
+	KP : proportionate factor of the PID
+	KI : integrator factor of the PID
+	KD : derivator factor of the PID
 
 
-Pid2
+Pid
 
-	threshold=0.1; the default of the captor 
-	precisionRound=10000; //the precision round for example 1000 for 3 number after the point (10000 for 4 and so on)
-	maxChangePerIterateration=1; 
-	delayTime=5; // delay beetween when the commande it's send and went it's executate
+	threshold : the default of the captor it represents his precision (when we are between command+threshold and command - threshold we think we are at the command so we chose not to act) 
+	precisionRound :the precision round for example 1000 for 3 number after the point (10000 for 4 and so on)
+	maxChangePerIterateration : we can limit the change possible between 2 iterations 
+	delayTime :  delay beetween when the commande is sent and went it's executate 
