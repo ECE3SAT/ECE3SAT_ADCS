@@ -83,7 +83,7 @@ class Pid {
     return delay[0];
   }
   
-       /As we know there is a delay between the decision and the actions, we don't want to do the same decision during the amounth of time determined by the delay 
+       //As we know there is a delay between the decision and the actions, we don't want to do the same decision during the amounth of time determined by the delay 
     //In order to avoid this phenomena, we can wait delayTime to take a more effective decision. That is what implement this function 
 		/*public double Delay2(){
 					
