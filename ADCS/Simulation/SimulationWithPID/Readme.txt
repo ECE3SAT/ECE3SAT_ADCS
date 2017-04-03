@@ -29,7 +29,13 @@ Pid2
 For PID_Processing
 
 - Work on processing 3.3 or later
-- Instal library ControlP5 and tools G4P GUI builder
+
+To use it :
+- Double click on one of the processing file
+- Say yes when they ask you to create a folder
+- Put the all the files inside
+- Instal library ControlP5 and tools G4P GUI builder (tool->add a tool->libraries->find controlP5->install then tools->find G4P GUI builder->install)
+- Launch it 
 
 editable :
 
