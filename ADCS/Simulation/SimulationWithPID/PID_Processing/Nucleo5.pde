@@ -1,4 +1,4 @@
-/**************************************************** //<>//
+/****************************************************
  Installation:
  Library: ControlP5
  Tools: G4P GUI builder
@@ -39,12 +39,11 @@ Test_PID procZ = new Test_PID();
 float KP, KI, KD;
 float threshold=5;
 
-//Set the screen size//
+
 void settings() {
   size(1920, 1080, P3D);
 }
 
-//Create and set textfields and buttons//
 void setup() 
 {
   frameRate(35);
@@ -65,46 +64,55 @@ void setup()
 
   cp5.addButton("Consign").setValue(128).setPosition(120, 150).updateSize();
   cp5.addButton("Param").setValue(128).setPosition(1700, 985).updateSize();
+  cp5.addButton("Reset").setValue(128).setPosition(1700,150).updateSize();
+  cp5.addButton("tester").setValue(128).setPosition(1700,300).updateSize();
 }
 
 
 
-//Draw some Label on Screen and call the drawing methods of the other class//
+
 void draw()
 {
   background(0);
 
   if (counterTime>1) {
     calPID();  
-
+      
     waveX.add(thetaX);
-    graph(waveX, 300);
+    graph(waveX, 300,0,180,180);
+    fill(0,180,180);
     text("theatX", 20, 280);
     waveY.add(thetaY);
-    graph(waveY, 400);
+    graph(waveY, 400,255,125,180);
+    fill(255,125,180);
     text("theatY", 20, 380);
     waveZ.add(thetaZ);
-    graph(waveZ, 500);
+    graph(waveZ, 500,255,0,255);
+    fill(255,0,255);
     text("theatZ", 20, 480);
+    
   }
   counterTime++;
 
   //Draw elements
   writeParam(10, 20, 18);
-
   drawCube(cubePosOnScreen.x+cubePos.x, cubePosOnScreen.y+cubePos.z, cubePosOnScreen.z+cubePos.y, thetaX, thetaY, thetaZ, CubeSize);
   drawEarth(earthPos.x, earthPos.y, earthPos.z);
 }
 
-//Launch the PID calculation to get the new angles//
-/// launch PID Cal
+void init(){
+  
+}
+
+/// launche PID Cal
+
 void calPID() {  // edit val for parameter 
   thetaX=radians(procX.myEvaluation(Url1, thetaX));
   thetaY=radians(procY.myEvaluation(Url2, thetaY));
   thetaZ=radians(procZ.myEvaluation(Url3, thetaZ));
 }
 
-//Get and set the new values that are set graphically in the textfields//
+
 //button 
 public void Param() {
   KP=float(cp5.get(Textfield.class, "KP").getText());
@@ -116,7 +124,7 @@ public void Param() {
   if (Float.isNaN(KI))KI=0;  // arbitrary
   if (Float.isNaN(KD))KD=0;  // arbitrary
   if (Float.isNaN(threshold)) threshold =1;  // arbitrary
-  
+
   //send the values to the different PID (one per axis)
   procY.pid.KP=procZ.pid.KP=procX.pid.KP=KP;
   procY.pid.KI=procZ.pid.KI=procX.pid.KI=KI;
@@ -127,8 +135,8 @@ public void Param() {
   println("KP:"+procZ.pid.KP+" KI:"+procZ.pid.KI+" KD:"+procZ.pid.KD);
 }
 
+
 //button 
-//Get and set the new values that are set graphically in the textfields//
 public void Consign() {
   url1 =cp5.get(Textfield.class, "ThetaX").getText();
   Url1=int(url1); 
@@ -138,9 +146,9 @@ public void Consign() {
   Url3=int(url3);
 }
 
-//Compute and plot the graphic lines on screen//
+
 // create graph line for each Var
-void graph(ArrayList Wave, int decalage) {
+void graph(ArrayList Wave, int decalage,int r,int g ,int b) {
 
   if (Wave.size() >= waveLength) 
   {
@@ -149,7 +157,7 @@ void graph(ArrayList Wave, int decalage) {
 
   for (int i = 0; i < Wave.size(); i++)
   {
-    stroke(255);   //for the color 
+     
     if (prevX == 0 && prevY == 0)
     {
       prevX = i;
@@ -157,8 +165,24 @@ void graph(ArrayList Wave, int decalage) {
     }
     if (prevX<i) {
       line(prevX+20, prevY+decalage, i+20, ((float)Wave.get(i))*10+decalage);  //we don't want to have a line joining the end to the begining of the graph
+       stroke(r,g,b);
     }
     prevX = i;
     prevY = ((float)Wave.get(i))*10;
   }
+  
 }
+ 
+ void Reset(){
+   KP=0.1;
+   KI=0;
+   KD=0;
+  procY.pid.KP=procZ.pid.KP=procX.pid.KP=KP; 
+   procY.pid.KI=procZ.pid.KI=procX.pid.KI=KI;
+  procY.pid.KD=procZ.pid.KD=procX.pid.KD=KD;
+ }
+ 
+ void tester(){
+   KI+=0.00001;
+   procY.pid.KI=procZ.pid.KI=procX.pid.KI=KI; 
+ }
