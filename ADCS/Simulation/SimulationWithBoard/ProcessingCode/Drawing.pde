@@ -1,65 +1,80 @@
-/***********    Ecrit les entrées de la communication série    ********/
-void writeSerial(int x, int y, int size){
+ /**
+  *    Description  : Display data on screen from serial communication          
+  *
+  *    @param x     : x coordinate which corresponds to the upper corner left
+  *    @param y     : y coordinate which corresponds to the upper corner left
+  *    @param size  : size of the text
+  */
+void writeSerial(float x, float y, int size){
   pushStyle();
   textSize(size);
-  text("magnetoX (mGauss) : " + cube.magneto.data.x, x, y);
-  text("magnetoY (mGauss) : " + cube.magneto.data.y, x, y+1*size);
-  text("magnetoZ (mGauss) : " + cube.magneto.data.z, x, y+2*size);
-  text("acceleroX (mg) : " + cube.accelero.data.x, x, y+3*size);
-  text("acceleroY (mg) : " + cube.accelero.data.y, x, y+4*size);
-  text("acceleroZ (mg) : " + cube.accelero.data.z, x, y+5*size);
-  text("gyroX (mdps) : " + cube.gyro.data.x, x, y+6*size);
-  text("gyroY (mdps) : " + cube.gyro.data.y, x, y+7*size);
-  text("gyroZ (mdps) : " + cube.gyro.data.z, x, y+8*size);
+ 
+  fill(255,0,0);text("X", x+120, y);fill(0,255,0);text("Y", x+260, y);fill(0,0,255);text("Z", x+400, y);fill(255,255,255);text("Unit", x+520, y);
   
-  text("calibrationX (mdps) : " + cube.gyro.calibration.x, x, y+10*size);
-  text("calibrationY (mdps) : " + cube.gyro.calibration.y, x, y+11*size);
-  text("calibrationZ (mdps) : " + cube.gyro.calibration.z, x, y+12*size);
-  
-  text("attitudeX (d) : " + String.format("%,8.3f", cube.attitude.x), x, y+14*size);
-  text("attitudeY (d) : " + String.format("%,8.3f", cube.attitude.y), x, y+15*size);
-  text("attitudeZ (d) : " + String.format("%,8.3f", cube.attitude.z), x, y+16*size);
+  text("magneto :", x, y+1*size);
+    text(cube.magneto.data.x, x+100, y+1*size);
+    text(cube.magneto.data.y, x+240, y+1*size);
+    text(cube.magneto.data.z, x+380, y+1*size);
+    text("mgauss", x+500, y+1*size);
+  text("gyro :", x, y+2*size);
+    text(cube.gyro.data.x, x+100, y+2*size);
+    text(cube.gyro.data.y, x+240, y+2*size);
+    text(cube.gyro.data.z, x+380, y+2*size);
+    text("mdps", x+500, y+2*size);
+  text("attitude :", x, y+3*size);
+    text(degrees(cube.attitude.x), x+100, y+3*size);
+    text(degrees(cube.attitude.y), x+240, y+3*size);
+    text(degrees(cube.attitude.z), x+380, y+3*size);
+    text("deg", x+500, y+3*size);
+  text("accelero :", x, y+4*size);
+    text(cube.accelero.data.x, x+100, y+4*size);
+    text(cube.accelero.data.y, x+240, y+4*size);
+    text(cube.accelero.data.z, x+380, y+4*size);
+    text("mg", x+500, y+4*size);
+  text("position :", x, y+5*size);
+    text(cube.position.x, x+100, y+5*size);
+    text(cube.position.y, x+240, y+5*size);
+    text(cube.position.z, x+380, y+5*size);
+    text("m", x+500, y+5*size);
+ 
   popStyle();
 }
 
 
-
-/***************    Ecrit aide    ****************/
+ /**
+  *    Description  : Display help text on screen          
+  *
+  *    @param x     : x coordinate which corresponds to the upper corner left
+  *    @param y     : y coordinate which corresponds to the upper corner left
+  *    @param size  : size of the text
+  */
 void writeHelp(int x, int y, int size){
   pushStyle();
   textSize(size);
-  text("Camera Help :", x, y-3);
   stroke(255);
+  
+  text("Camera Help :", x, y-3); 
   line(x, y, x+80, y);
-  text("Drag the left click to rotate", x, y+1*size);
-  text("Use the mouse wheel to zoom", x, y+2*size);
-  text("Double click to reset view", x, y+3*size);
+    text("+ Press \"C\" to activate or deactivate", x, y+1*size);
+    text("+ Drag the left click to rotate", x, y+2*size);
+    text("+ Use the mouse wheel to zoom", x, y+3*size);
+    text("+ Double click to reset view", x, y+4*size);
+    
+  text("Calibration :", x, y+6*size-3);
+  line(x, y+6*size, x+80, y+6*size);
+    text("+ Press \"SPACEBAR\" to calibrate", x, y+7*size);
+  
+  text("Graphs :", x, y+9*size-3);
+  line(x, y+9*size, x+80, y+9*size);
+  text("+ Press \"P\" to pause", x, y+10*size);
+  
   popStyle();
   
   if(!deviceConnected){
     pushStyle();
-    textSize(30);
+    textSize(20);
     fill(255, 0, 0);
-    text("PORT NOT FOUND !!!  Connect Your Device", width/4, 50);
+    text("PORT NOT FOUND !!!  Connect Your Device", 0.48*width, 50);
     popStyle();
   }
-}
-
-
-
-/******************    Dessine une flèche    ****************/
-void drawArrow(PVector arrowPos, float xcenter, float ycenter, float zcenter, color c){
-  pushStyle();
-  pushMatrix();
-  
-  //Epaisseur, Couleur
-  stroke(c);
-  strokeWeight(2);
-  
-  //Dessin
-  line(arrowPos.y+xcenter, -arrowPos.x+ycenter, arrowPos.z+zcenter, xcenter, ycenter, zcenter);   //on inverse les axes car les mems ne sont pas orienté dans le même sens
-  //text("x " + xcenter + " y " + ycenter, xcenter, ycenter);
-  
-  popMatrix();
-  popStyle();
 }
