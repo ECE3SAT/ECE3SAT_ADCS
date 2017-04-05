@@ -1,5 +1,5 @@
 public class Gyroscope extends SpatialSensor {
-  
+    
   public Gyroscope() {
     super();
   }
@@ -7,5 +7,5 @@ public class Gyroscope extends SpatialSensor {
   public void calibrate() {
     calibration = received.copy();
   }
-  
+
 }
