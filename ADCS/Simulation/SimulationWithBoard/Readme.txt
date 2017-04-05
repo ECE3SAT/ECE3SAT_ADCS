@@ -4,7 +4,9 @@ The ProcessingCode provides the visualisation and computation of the data we rea
 Be sure to read the "Readme" of the folders to make it work
 
 How to install the project :
-
+-Download Processing (https://processing.org/download/?processing) 
+-Install Processing
+-Open the project
 -Install the libraries (look at the instructions in the following folders)
 -Copy the folder "Orientation_Sensors_Reading" on the computer
 
