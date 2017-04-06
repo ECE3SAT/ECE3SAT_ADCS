@@ -40,7 +40,7 @@ Earth earth;
 Graph gyroXGraph, gyroYGraph, gyroZGraph;
 Graph attitudeXGraph, attitudeYGraph, attitudeZGraph;
 Graph magnetoXGraph, magnetoYGraph, magnetoZGraph;
-boolean graphPause=false;
+boolean pause=false;
 
 /**
  *  Description : Setup function
@@ -123,7 +123,7 @@ void keyPressed() {
   }
   
   if(key == 'p'){
-    if(!graphPause){
+    if(!pause){
     gyroXGraph.line2DTrace.pause();
     gyroYGraph.line2DTrace.pause();
     gyroZGraph.line2DTrace.pause();
@@ -133,7 +133,7 @@ void keyPressed() {
     magnetoXGraph.line2DTrace.pause();
     magnetoYGraph.line2DTrace.pause();
     magnetoZGraph.line2DTrace.pause();
-    graphPause=true;
+    pause=true;
     }
     else{
       gyroXGraph.line2DTrace.unpause();
@@ -145,7 +145,7 @@ void keyPressed() {
       magnetoXGraph.line2DTrace.unpause();
       magnetoYGraph.line2DTrace.unpause();
       magnetoZGraph.line2DTrace.unpause();
-      graphPause=false;
+      pause=false;
     }
   }
   

@@ -64,9 +64,9 @@ void writeHelp(int x, int y, int size){
   line(x, y+6*size, x+80, y+6*size);
     text("+ Press \"SPACEBAR\" to calibrate", x, y+7*size);
   
-  text("Graphs :", x, y+9*size-3);
-  line(x, y+9*size, x+80, y+9*size);
-  text("+ Press \"P\" to pause", x, y+10*size);
+  text("Graphs :", x, y+8*size-3);
+  line(x, y+8*size, x+80, y+8*size);
+  text("+ Press \"SPACEBAR\" to calibrate", x, y+7*size);
   
   popStyle();
   

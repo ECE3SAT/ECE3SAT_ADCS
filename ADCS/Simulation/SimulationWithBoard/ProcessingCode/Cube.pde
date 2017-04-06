@@ -72,14 +72,6 @@ public class Cube {
     attitude.x += speedAng.x*gyro.readTimeDelta;
     attitude.y += speedAng.y*gyro.readTimeDelta;
     attitude.z += speedAng.z*gyro.readTimeDelta;
-    
-    //  -PI < angle <= +PI 
-    while(attitude.x <= -PI) attitude.x += 2*PI;
-    while(attitude.x > PI) attitude.x -= 2*PI;
-    while(attitude.y <= -PI) attitude.y += 2*PI;
-    while(attitude.y > PI) attitude.y -= 2*PI;
-    while(attitude.z <= -PI) attitude.z += 2*PI;
-    while(attitude.z > PI) attitude.z -= 2*PI;
   }
   
   
@@ -150,15 +142,7 @@ public class Cube {
    *    Description : Calculate position from linear speed
    */
   public void updateMagneticField() {
-    float p, q, r;
-    
-    p = magneto.data.x;
-    q = magneto.data.y;
-    r = magneto.data.z;
-    
-    magneticField.x = p + sin(attitude.x)*tan(attitude.y)*q + cos(attitude.x)*tan(attitude.y)*r;
-    magneticField.y = cos(attitude.x)*q - sin(attitude.x)*r;
-    magneticField.z = (sin(attitude.x)/cos(attitude.y))*q + (cos(attitude.x)/cos(attitude.y))*r;
+    magneticField.set(magneto.data.y, -magneto.data.x, magneto.data.z);
   }
   
   /**
