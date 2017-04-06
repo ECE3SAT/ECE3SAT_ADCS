@@ -27,7 +27,7 @@ DigitalOut myled(LED2);
 
 /* Simple main function */
 int main() {
-  pc.baud(300000);
+  pc.baud(9600);
   int32_t axes[3];
   
   while(1) {
