@@ -3,17 +3,18 @@
 void writeParam(int x, int y, int size) {
   textSize(size);
   fill(0,180,180);
-  text("TheatX : "+degrees(thetaX), x, y);
+  text("TheatX : "+degrees(thetaX), x, y+1*size);
   fill(255,125,180);
-  text("TheatY : "+degrees(thetaY), x, y+1*size);
+  text("TheatY : "+degrees(thetaY), x, y+2*size);
   fill(255,0,255);
-  text("TheatZ : "+degrees(thetaZ), x, y+2*size);
+  text("TheatZ : "+degrees(thetaZ), x, y+3*size);
   fill(255,255,255);
-  text("Threshold : ", 10, 74);
-  text("Value to be achieved", x, 120);
-  text("Threshold : "+procX.pid.threshold, 10, y+3*size); // just to prind threshold on screen
-  text("KP :" +procX.pid.KP+"  KI :"+procX.pid.KI+"   KD :"+procX.pid.KD,10,y+4*size);
-  text("Edit Value", 1700, 820);
+  text("Threshold : "+procX.pid.threshold, 10, y+4*size); // just to prind threshold on screen
+  text("KP :" +procX.pid.KP+"  KI :"+procX.pid.KI+"   KD :"+procX.pid.KD,10,y+5*size);
+  text("Value to be achieved", x, y+7*size);
+  
+  text("Edit Value", 1700, 650+size);
+  
 }
 
 
@@ -22,11 +23,11 @@ void drawEarth(float x, float y, float size) {
   pushMatrix();
   pushStyle();
   noStroke();
-  translate(x, y);
+  translate(x, y+200);
   rotateZ(radians(earthAngle));
   earthAngle=earthAngle+PI/20;
   sphereDetail(100);
-  globe=createShape(SPHERE, size);
+  globe=createShape(SPHERE, size/2);
   globe.setTexture(earthImage);
   shape(globe);
   popStyle();

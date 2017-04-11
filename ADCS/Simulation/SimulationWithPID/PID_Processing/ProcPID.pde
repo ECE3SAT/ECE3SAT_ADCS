@@ -40,4 +40,10 @@ class Test_PID {
     measure=systemSimulator(pidVal);
     return measure;
   }
+  
+  public float offPID(){
+    measure=measure+disp*pid.varSens;
+    return measure;
+  }
+    
 }

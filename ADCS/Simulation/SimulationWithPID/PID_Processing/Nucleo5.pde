@@ -7,6 +7,7 @@
 import controlP5.*;
 
 
+
 PImage earthImage;
 PShape globe;
 float earthAngle=0;
@@ -23,12 +24,13 @@ PVector earthPos=new PVector(0, 0);
 ControlP5 cp5;
 String url1, url2, url3;
 int Url1=0, Url2=0, Url3=0;
+int size = 35;
 
 //Graph
 ArrayList waveX = new ArrayList();
 ArrayList waveY = new ArrayList();
 ArrayList waveZ = new ArrayList();
-int waveLength = 200;   /// length for graph
+int waveLength = 300;   /// length for graph
 float prevX = 0, prevY = 0;
 
 
@@ -38,6 +40,7 @@ Test_PID procY = new Test_PID();
 Test_PID procZ = new Test_PID();
 float KP, KI, KD;
 float threshold=5;
+Boolean PIDact = false;
 
 
 void settings() {
@@ -46,6 +49,7 @@ void settings() {
 
 void setup() 
 {
+  textSize(size);
   frameRate(35);
   earthImage=loadImage("earth.jpg");
   cubePosOnScreen.set(2*width/3, height/3, 0);
@@ -54,18 +58,19 @@ void setup()
   //creat text field
   // Copy paste to add new text field
   cp5 = new ControlP5(this);
-  cp5.addTextfield("ThetaX").setPosition(30, 120+18).setSize(60, 20).setAutoClear(false);
-  cp5.addTextfield("ThetaY").setPosition(30, 155+18).setSize(60, 20).setAutoClear(false);
-  cp5.addTextfield("ThetaZ").setPosition(30, 190+18).setSize(60, 20).setAutoClear(false);
-  cp5.addTextfield("KP").setPosition(1700, 820+18).setSize(60, 20).setAutoClear(false);
-  cp5.addTextfield("KI").setPosition(1700, 855+18).setSize(60, 20).setAutoClear(false);
-  cp5.addTextfield("KD").setPosition(1700, 890+18).setSize(60, 20).setAutoClear(false);
-  cp5.addTextfield("threshold").setPosition(1700, 925+18).setSize(60, 20).setAutoClear(false);
+  cp5.addTextfield("ThetaX").setPosition(30, 20+9*size).setSize(42+size, 2+size).setAutoClear(false).setFont(createFont("arial",size/2));
+  cp5.addTextfield("ThetaY").setPosition(30,20+11*size).setSize(42+size, 2+size).setAutoClear(false).setFont(createFont("arial",size/2));
+  cp5.addTextfield("ThetaZ").setPosition(30, 20+13*size).setSize(42+size, 2+size).setAutoClear(false).setFont(createFont("arial",size/2));
+  cp5.addTextfield("KP").setPosition(1700, 650+2*size).setSize(42+size, 2+size).setAutoClear(false).setFont(createFont("arial",size/2));
+  cp5.addTextfield("KI").setPosition(1700, 650+4*size).setSize(42+size, 2+size).setAutoClear(false).setFont(createFont("arial",size/2));
+  cp5.addTextfield("KD").setPosition(1700, 650+6*size).setSize(42+size, 2+size).setAutoClear(false).setFont(createFont("arial",size/2));
+  cp5.addTextfield("threshold").setPosition(1700, 650+8*size).setSize(42+size, 2+size).setAutoClear(false).setFont(createFont("arial",size/2));
 
-  cp5.addButton("Consign").setValue(128).setPosition(120, 150).updateSize();
-  cp5.addButton("Param").setValue(128).setPosition(1700, 985).updateSize();
-  cp5.addButton("Reset").setValue(128).setPosition(1700,150).updateSize();
-  cp5.addButton("tester").setValue(128).setPosition(1700,300).updateSize();
+  cp5.addButton("Reset").setValue(128).setPosition(1700,150).setSize(42+size, 2+size).setFont(createFont("arial",size/3));
+  cp5.addButton("PID").setValue(128).setPosition(1700,150+2*size).setSize(42+size, 2+size).setFont(createFont("arial",size/3));
+  cp5.addButton("Consign").setValue(128).setPosition(120,20+9*size).setSize(42+size, 2+size).setFont(createFont("arial",size/3));
+  cp5.addButton("Param").setValue(128).setPosition(1700, 650+10*size).setSize(42+size, 2+size).setFont(createFont("arial",size/3));
+  
 }
 
 
@@ -76,33 +81,35 @@ void draw()
   background(0);
 
   if (counterTime>1) {
-    calPID();  
+    if(PIDact) calPID();
+    else {
+      thetaX=radians(procX.offPID());
+      thetaY=radians(procY.offPID());
+      thetaZ=radians(procZ.offPID());
+    }
       
     waveX.add(thetaX);
-    graph(waveX, 300,0,180,180);
+    graph(waveX, 60+16*size,0,180,180);
     fill(0,180,180);
-    text("theatX", 20, 280);
+    text("theatX", 20, 20+16*size);
     waveY.add(thetaY);
-    graph(waveY, 400,255,125,180);
+    graph(waveY, 60+21*size,255,125,180);
     fill(255,125,180);
-    text("theatY", 20, 380);
+    text("theatY", 20, 20+21*size);
     waveZ.add(thetaZ);
-    graph(waveZ, 500,255,0,255);
+    graph(waveZ, 60+26*size,255,0,255);
     fill(255,0,255);
-    text("theatZ", 20, 480);
+    text("theatZ", 20, 20+26*size);
     
   }
   counterTime++;
-
   //Draw elements
-  writeParam(10, 20, 18);
+  writeParam(10, 20, size);
   drawCube(cubePosOnScreen.x+cubePos.x, cubePosOnScreen.y+cubePos.z, cubePosOnScreen.z+cubePos.y, thetaX, thetaY, thetaZ, CubeSize);
   drawEarth(earthPos.x, earthPos.y, earthPos.z);
 }
 
-void init(){
-  
-}
+
 
 /// launche PID Cal
 
@@ -139,11 +146,11 @@ public void Param() {
 //button 
 public void Consign() {
   url1 =cp5.get(Textfield.class, "ThetaX").getText();
-  Url1=int(url1); 
+  Url1=int(url1)%360; 
   url2 =cp5.get(Textfield.class, "ThetaY").getText();
-  Url2=int(url2); 
+  Url2=int(url2)%360; 
   url3 =cp5.get(Textfield.class, "ThetaZ").getText();
-  Url3=int(url3);
+  Url3=int(url3)%360;
 }
 
 
@@ -182,7 +189,8 @@ void graph(ArrayList Wave, int decalage,int r,int g ,int b) {
   procY.pid.KD=procZ.pid.KD=procX.pid.KD=KD;
  }
  
- void tester(){
-   KI+=0.00001;
-   procY.pid.KI=procZ.pid.KI=procX.pid.KI=KI; 
+ void PID(){
+  if (PIDact) PIDact=false;
+  else PIDact=true;
  }
+ 
