@@ -20,7 +20,25 @@ public abstract class Sensor {
     
   protected PVector received;
   protected PVector calibration;
-
+  
+  //private int discardedPrecision;
+  
+  /**
+   *  Description : Constructor which initializes Spatial Sensor object
+   
+  public SpatialSensor() {
+    received = new PVector(0, 0, 0);
+    calibration = new PVector(0, 0, 0);
+    data = new PVector(0, 0, 0);
+    
+    sampleSize = 50;
+    sample = new ArrayList(sampleSize);
+    smoothed = new PVector(0, 0, 0);
+    
+    lastReadTime = 0;
+    readTimeDelta = 0;
+  }*/
+  
   /**
    *  Description : Update Time
    */

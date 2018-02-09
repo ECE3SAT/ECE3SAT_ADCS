@@ -23,10 +23,12 @@ public class Sun {
     noStroke();
     globe.setTexture(sunTexture);
     
-    orbitalDuration = 5542; // One orbit is equal to 5542s at 400km from earth sea level
+    
+    //orbitalDuration = 5542; // One orbit is equal to 5542s at 400km from earth sea level
+    orbitalDuration = 5542;
     
     sunPositionScreen = new PVector(-700, 0, -1000);
-    sunPosition = new PVector(-4587100*2, 0, -6553000*2); //orbit sufficiently far away for the sun to be "at an infinite distance"
+    sunPosition = new PVector(-4587100*2, 0, -6553000*2);
     illumination = new PVector(0,0,0);
   }
   

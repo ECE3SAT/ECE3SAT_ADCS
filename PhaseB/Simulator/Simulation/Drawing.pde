@@ -21,16 +21,6 @@ void draw() {
   cube.magneto.updateSensor(cube);
   cube.gyro.updateSensor(cube);
   
-  /*
-  PVector kfkf = new PVector();
-  kfkf.x = cube.magnetorquerX.normalVector.x + cube.magnetorquerY.normalVector.x +cube.magnetorquerZ.normalVector.x ;
-  kfkf.y = cube.magnetorquerX.normalVector.y + cube.magnetorquerY.normalVector.y +cube.magnetorquerZ.normalVector.y ;
-  kfkf.z = cube.magnetorquerX.normalVector.z + cube.magnetorquerY.normalVector.z +cube.magnetorquerZ.normalVector.z ;
-  println(kfkf);
-  println(kfkf.mag());*/
-  
-  
-  
   //Update earth position and rotation
   earth.rotateOrbital();
   earth.selfRotate();
@@ -69,7 +59,7 @@ void draw() {
   {
     
     addPlotGraph1(cube.magneto.getMagnVector().x,cube.magneto.getMagnVector().y,cube.magneto.getMagnVector().z,"Magnetic Vector");
-    addPlotGraph2(cube.axeRotation.getEulerAngle().x,cube.axeRotation.getEulerAngle().y,cube.axeRotation.getEulerAngle().z,"Cube Euler angle");
+    addPlotGraph2(cube.magnetorquerX.getIntensity(),cube.magnetorquerY.getIntensity(),cube.magnetorquerZ.getIntensity(),"Magnetorquer");
     addPlotGraph3(cube.axeRotation.getEulerAxe().x,cube.axeRotation.getEulerAxe().y,cube.axeRotation.getEulerAxe().z,"Cube Rotation");
     
     float angle = cube.axeRotation.getVectorNorm() * cube.axeRotation.getAngle();

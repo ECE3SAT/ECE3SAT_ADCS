@@ -1,7 +1,6 @@
  #include <string.h>
  
- #define SIZETAB 20
-  float K = 0.78;
+  float K = 20;
   int I=1;
   /*******************/
   short int index = 0;
@@ -34,14 +33,10 @@
   float vectorZy = 0;
   float vectorZz = 0;
 
-  float intensityX = 0;
-  float intensityY = 0;
-  float intensityZ = 0;
-
-  bool receivedDataA = false;  // baseChangedMagnVector
-  bool receivedDataX = false; // X magnetorquer
-  bool receivedDataY = false; // Y magnetorquer
-  bool receivedDataZ = false; // Z magnetorquer
+  bool receivedDataA = false;
+  bool receivedDataX = false;
+  bool receivedDataY = false;
+  bool receivedDataZ = false;
   
 void setup() {
   // put your setup code here, to run once:
@@ -63,7 +58,6 @@ void loop() {
   // put your main code here, to run repeatedly:
   timeStart = millis();
 
-  index=(index+1)%SIZETAB;
   //get sensor data and put it in our tab
 
   String bufferLine;
@@ -88,7 +82,11 @@ void loop() {
     
     receivedDataA = true;
   }
-  else if(receivedChars[0] == 'X') // X magnetorquer
+  
+  recvWithStartEndMarkers();
+  showNewData();
+  
+  if(receivedChars[0] == 'X') // X magnetorquer
   {
     pch = strtok (receivedChars," ");
     pch = strtok (NULL, " ");
@@ -100,7 +98,11 @@ void loop() {
     
     receivedDataX = true;
   }
-  else if(receivedChars[0] == 'Y') // Y magnetorquer
+  
+  recvWithStartEndMarkers();
+  showNewData();
+  
+  if(receivedChars[0] == 'Y') // Y magnetorquer
   {
     pch = strtok (receivedChars," ");
     pch = strtok (NULL, " ");
@@ -112,7 +114,11 @@ void loop() {
     
     receivedDataY = true;
   }
-  else if(receivedChars[0] == 'Z') // Z magnetorquer
+  
+  recvWithStartEndMarkers();
+  showNewData();
+  
+  if(receivedChars[0] == 'Z') // Z magnetorquer
   {
     pch = strtok (receivedChars," ");
     pch = strtok (NULL, " ");
@@ -125,40 +131,42 @@ void loop() {
     receivedDataZ = true;
   }
 
-
-  float derivativeX = 0;
-  float derivativeY = 0;
-  float derivativeZ = 0;
-  
   // Bdot
-  //B' = db/dt
-  //I = - K B'
-  derivativeX = (magnX - prevMagnX) * frameRate * ( - K);
-  derivativeY = (magnY - prevMagnY) * frameRate * ( - K);
-  derivativeZ = (magnZ - prevMagnZ) * frameRate * ( - K);
-
-  intensityX = derivativeX * vectorXx + derivativeY * vectorXy + derivativeZ * vectorXz;
-  intensityY = derivativeX * vectorYx + derivativeY * vectorYy + derivativeZ * vectorYz;
-  intensityZ = derivativeX * vectorZx + derivativeY * vectorZy + derivativeZ * vectorZz;
   
   if(receivedDataA && receivedDataX && receivedDataY && receivedDataZ)
   {
-    char test[20];
-    
+    float derivativeX = (magnX - prevMagnX) * frameRate * ( - K);
+    float derivativeY = (magnY - prevMagnY) * frameRate * ( - K);
+    float derivativeZ = (magnZ - prevMagnZ) * frameRate * ( - K);
+  
+    float intensityX = derivativeX * vectorXx + derivativeY * vectorXy + derivativeZ * vectorXz;
+    float intensityY = derivativeX * vectorYx + derivativeY * vectorYy + derivativeZ * vectorYz;
+    float intensityZ = derivativeX * vectorZx + derivativeY * vectorZy + derivativeZ * vectorZz;
+  
+  
+    //Serial.println(String(vectorZx) + " " + String(vectorZy) + " " +String(vectorZz));
+    //Serial.println(String(derivativeX) + " " + String(derivativeY) + " " +String(derivativeZ));
     Serial.println(request+"X "+String(intensityX,10));
     Serial.println(request+"Y "+String(intensityY,10));
     Serial.println(request+"Z "+String(intensityZ,10));
+    
+    Serial.println(String(derivativeX,10)+String(derivativeY,10)+String(derivativeZ,10));
+    
+    prevMagnX = magnX;
+    prevMagnY = magnY;
+    prevMagnZ = magnZ;
+    
+    receivedDataA = false;
+    receivedDataX = false;
+    receivedDataY = false;
+    receivedDataZ = false;
   }
   
-  prevMagnX = magnX;
-  prevMagnY = magnY;
-  prevMagnZ = magnZ;
 
-  //delay(30);
+
 }
 
 
-//Split the data using the special delimiter []
 void recvWithStartEndMarkers() {
     static boolean recvInProgress = false;
     static byte ndx = 0;
@@ -191,10 +199,10 @@ void recvWithStartEndMarkers() {
     }
 }
 
-//print the data received
 void showNewData() {
     if (newData == true) {
       //Serial.println(receivedChars);
         newData = false;
     }
 }
+

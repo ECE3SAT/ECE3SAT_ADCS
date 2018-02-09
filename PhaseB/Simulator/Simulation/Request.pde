@@ -8,7 +8,7 @@ void serialSplitCommand(Cube cube, String request)
    String[] command = requestBuffer.split("\n");
    
    for(int i = 0; i < command.length - 1 ; i ++){
-       //println(command[i]);
+       println(command[i]);
        interpretCommand(command[i]);
    }
 }
@@ -78,7 +78,6 @@ void interpretCommand(String command)
   requestBuffer = requestBuffer.substring(command.length());
 }
 
-//To correctly exchange data with the Arduino, the data have to be send between the delimiter [], then each data should have a first character to identify it (example: [X12.47] for the X magnetic field)
 void writeDataInSerial(Serial serial)
 {
   cube.magneto.sendDataToSerial(serial);

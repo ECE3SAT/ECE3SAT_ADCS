@@ -35,18 +35,9 @@ public class Magnetometer extends Sensor {
     float declination = 0;
     float inclination = radians(temp.x);
     
-    magneticVectorXYZ.x = - 1 * sin(inclination);
-    magneticVectorXYZ.y = 1 * cos(inclination);
-    magneticVectorXYZ.z = 1 * sin(declination);
-    
-    /*
-    magneticVectorXYZ.x = 1;
-    magneticVectorXYZ.y = 2 ;
-    magneticVectorXYZ.z = 3;*/
-    /*
-    originVector.x = magneticVectorXYZ.x;
-    originVector.y = magneticVectorXYZ.y;
-    originVector.z = magneticVectorXYZ.z;*/
+    magneticVectorXYZ.x = - 1 * sin(inclination) / 10;
+    magneticVectorXYZ.y = 1 * cos(inclination) / 10;
+    magneticVectorXYZ.z = 1 * sin(declination) / 10;
   }
   
   //Retrieve magnetic vector from online web service
@@ -92,48 +83,26 @@ public class Magnetometer extends Sensor {
 
   // Write magnetic data to serial port
   void serialWrite() {
-    PVector baseChangedMagnVector = cube.getAttitudeDifference().getConjugate().rotateVector(cube.magneto.getMagnVector());
-    
-    PVector derivative = new PVector();
-    derivative.x = baseChangedMagnVector.x;
-    derivative.y = baseChangedMagnVector.y;
-    derivative.z = baseChangedMagnVector.z;
-    
-    derivative = derivative.sub(cube.magneto.prevValue).mult(framePerSecond);
-    
-    cube.magneto.prevValue = baseChangedMagnVector;
-    
-    PVector magnDipoleReq = new PVector();
-    float K = 0.78;
-    magnDipoleReq = derivative.mult(-K);
-    
-    float reqCompX = magnDipoleReq.dot(cube.magnetorquerX.getNormalVector());
-    float reqCompY = magnDipoleReq.dot(cube.magnetorquerY.getNormalVector());
-    float reqCompZ = magnDipoleReq.dot(cube.magnetorquerZ.getNormalVector());
-    
-    //cube.magnetorquerX.changeIntensity(reqCompX);
-    //cube.magnetorquerY.changeIntensity(reqCompY);
-    //cube.magnetorquerZ.changeIntensity(reqCompZ);
-    
-    
-    //cube.changeRotation(totalRotation);
-      
+    PVector baseChangedMagnVector = cube.getAttitudeDifference().getConjugate().rotateVectorUnnormalized(cube.magneto.getMagnVector());
     
     if(enableCom)
     {
-      
       String value1 = str(baseChangedMagnVector.x)+" "+str(baseChangedMagnVector.y)+" "+str(baseChangedMagnVector.z);
       String valueX = str(cube.magnetorquerX.getNormalVector().x)+" "+str(cube.magnetorquerX.getNormalVector().y)+" "+str(cube.magnetorquerX.getNormalVector().z);
       String valueY = str(cube.magnetorquerY.getNormalVector().x)+" "+str(cube.magnetorquerY.getNormalVector().y)+" "+str(cube.magnetorquerY.getNormalVector().z);
       String valueZ = str(cube.magnetorquerZ.getNormalVector().x)+" "+str(cube.magnetorquerZ.getNormalVector().y)+" "+str(cube.magnetorquerZ.getNormalVector().z);
     
       try{
-      serialPort.write("<"+"A "+value1+">");
-      serialPort.write("<"+"X "+valueX+">");
-      serialPort.write("<"+"Y "+valueY+">");
-      serialPort.write("<"+"Z "+valueZ+">");
+        serialPort.write("<"+"A "+value1+">");
+        serialPort.write("<"+"X "+valueX+">");
+        serialPort.write("<"+"Y "+valueY+">");
+        serialPort.write("<"+"Z "+valueZ+">");
       }
-      catch(Exception e){}
+      catch(Exception e){
+        cube.magnetorquerX.changeIntensity(-15000);
+        cube.magnetorquerY.changeIntensity(-15000);
+        cube.magnetorquerZ.changeIntensity(-15000);
+      }
     }
     else // Send unusable value to shutdown magnetorquers
     {

@@ -14,6 +14,8 @@ public class Cube {
   // Quaternion representing the cube attitude
   public Quaternion cubeAttitude;
   
+  private PVector originVector;
+  
   // Vertex used for cube drawing
   private PVector APoint; // Point -1 / -1 / -1
   private PVector BPoint; // Point 1 / -1 / -1
@@ -48,6 +50,8 @@ public class Cube {
     // Define Quaternion
     axeRotation = new Quaternion(timeCoefficient * angularVelocity / framePerSecond , xAxis, yAxis, zAxis).fromAxis();
     cubeAttitude = new Quaternion(axeRotation);
+    
+    originVector = new PVector(xAxis,yAxis,zAxis);
     
     //Init vertex value
     APoint = new PVector(-1,-1,-1);
@@ -169,9 +173,9 @@ public class Cube {
     cube.magnetorquerY.actualizeForce(cube.magneto.getMagnVector());
     cube.magnetorquerZ.actualizeForce(cube.magneto.getMagnVector());
     
-    Quaternion rotationMagnX = new Quaternion(0,cube.magnetorquerX.getAngularAcceleration());
-    Quaternion rotationMagnY = new Quaternion(0,cube.magnetorquerY.getAngularAcceleration());
-    Quaternion rotationMagnZ = new Quaternion(0,cube.magnetorquerZ.getAngularAcceleration());
+    Quaternion rotationMagnX = new Quaternion(1,cube.magnetorquerX.getAngularAcceleration());
+    Quaternion rotationMagnY = new Quaternion(1,cube.magnetorquerY.getAngularAcceleration());
+    Quaternion rotationMagnZ = new Quaternion(1,cube.magnetorquerZ.getAngularAcceleration());
     
     //Quaternion rotationMagnZ = new Quaternion(cube.magnetorquerZ.getAngularSpeed(),cube.magnetorquerZ.getAngularAcceleration());
     
